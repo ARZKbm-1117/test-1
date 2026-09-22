@@ -3,788 +3,422 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistem Semakan Markah Pelajar Matrikulasi</title>
-  <!-- Google Fonts & Font Awesome Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Sistem Semakan Markah PB - Kolej Matrikulasi Perak</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
     :root {
-      --primary-navy: #0A192F;
-      --secondary-navy: #1E293B;
-      --accent-red: #DC2626;
-      --light-red: #FEF2F2;
-      --accent-blue: #2563EB;
-      --bg-slate: #F8FAFC;
-      --card-white: #FFFFFF;
-      --text-main: #0F172A;
-      --text-muted: #64748B;
-      --border-color: #E2E8F0;
+      --primary: #1e3a8a;
+      --primary-light: #3b82f6;
+      --secondary: #0f172a;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #334155;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+      --radius: 12px;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Poppins', sans-serif;
     }
 
     body {
-      background-color: var(--bg-slate);
-      color: var(--text-main);
-      min-height: 100vh;
+      background-color: var(--bg);
+      color: var(--text);
       display: flex;
-      flex-direction: column;
-    }
-
-    /* Header Styling */
-    header {
-      background: linear-gradient(135deg, var(--primary-navy) 0%, #1E3A8A 100%);
-      color: white;
-      padding: 2rem 1rem;
-      text-align: center;
-      border-bottom: 5px solid var(--accent-red);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-      position: relative;
-    }
-
-    .header-container {
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .badge-tag {
-      background-color: var(--accent-red);
-      color: white;
-      padding: 0.35rem 1rem;
-      border-radius: 50px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      display: inline-block;
-      margin-bottom: 0.75rem;
-    }
-
-    header h1 {
-      font-size: 1.8rem;
-      font-weight: 800;
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.5px;
-    }
-
-    header p {
-      font-size: 0.95rem;
-      color: #94A3B8;
-    }
-
-    /* Main Container */
-    main {
-      max-width: 900px;
-      width: 100%;
-      margin: -1.5rem auto 2rem auto;
-      padding: 0 1rem;
-      flex: 1;
-    }
-
-    /* Search Box */
-    .search-card {
-      background: var(--card-white);
-      padding: 1.75rem;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-      border: 1px solid var(--border-color);
-      margin-bottom: 1.5rem;
-    }
-
-    .search-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--primary-navy);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .search-title i {
-      color: var(--accent-red);
-    }
-
-    .input-group {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
-
-    .input-wrapper {
-      position: relative;
-      flex: 1;
-      min-width: 260px;
-    }
-
-    .input-wrapper i {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 0.85rem 1rem 0.85rem 2.75rem;
-      border: 2px solid var(--border-color);
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text-main);
-      transition: all 0.2s ease;
-      text-transform: uppercase;
-    }
-
-    input[type="text"]:focus {
-      outline: none;
-      border-color: var(--accent-blue);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-    }
-
-    .btn-search {
-      background-color: var(--accent-blue);
-      color: white;
-      border: none;
-      padding: 0.85rem 1.75rem;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
       justify-content: center;
-      gap: 0.5rem;
-    }
-
-    .btn-search:hover {
-      background-color: #1D4ED8;
-      transform: translateY(-1px);
-    }
-
-    /* Error / Alert Message */
-    .alert-box {
-      display: none;
-      background-color: var(--light-red);
-      border-left: 4px solid var(--accent-red);
-      color: var(--accent-red);
-      padding: 1rem;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      margin-top: 1rem;
-    }
-
-    /* Result Card Styling */
-    .result-card {
-      display: none;
-      background: var(--card-white);
-      border-radius: 16px;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 15px 30px -10px rgba(0,0,0,0.08);
-      overflow: hidden;
-      animation: fadeIn 0.3s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .card-header-student {
-      background-color: var(--primary-navy);
-      color: white;
-      padding: 1.5rem;
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      border-bottom: 4px solid var(--accent-red);
+      min-height: 100vh;
+      padding: 20px;
     }
 
-    .student-info h2 {
-      font-size: 1.3rem;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-      margin-bottom: 0.25rem;
+    .container {
+      background: var(--surface);
+      width: 100%;
+      max-width: 800px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      overflow: hidden;
     }
 
-    .student-info p {
-      font-size: 0.9rem;
-      color: #94A3B8;
-    }
-
-    .grade-badge-container {
-      text-align: right;
-    }
-
-    .grade-badge {
-      display: inline-block;
-      padding: 0.5rem 1.25rem;
-      border-radius: 12px;
-      font-size: 1.6rem;
-      font-weight: 800;
+    .header {
+      background: linear-gradient(135deg, var(--primary), #1e40af);
       color: white;
+      padding: 30px 20px;
       text-align: center;
-      box-shadow: 0 4px 6px -1rem rgba(0,0,0,0.1);
     }
 
-    .grade-A, .grade-A-minus { background-color: #10B981; }
-    .grade-B-plus, .grade-B, .grade-B-minus { background-color: #2563EB; }
-    .grade-C-plus, .grade-C { background-color: #F59E0B; }
-    .grade-D, .grade-F { background-color: var(--accent-red); }
-
-    .card-body-student {
-      padding: 1.5rem;
-    }
-
-    .meta-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      background-color: #F8FAFC;
-      padding: 1.25rem;
-      border-radius: 12px;
-      border: 1px solid var(--border-color);
-      margin-bottom: 1.5rem;
-    }
-
-    .meta-item {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .meta-item .label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
       letter-spacing: 0.5px;
     }
 
-    .meta-item .value {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-top: 0.2rem;
+    .header p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
     }
 
-    /* Marks Table */
-    .marks-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--primary-navy);
-      margin-bottom: 0.75rem;
+    .search-section {
+      padding: 30px 20px 10px 20px;
+    }
+
+    .search-box {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      gap: 10px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--primary-light);
+    }
+
+    button.btn-search {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button.btn-search:hover {
+      background: #1d4ed8;
+    }
+
+    .result-section {
+      padding: 20px 30px 30px 30px;
+      display: none;
+    }
+
+    .student-info {
+      background: #f1f5f9;
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+
+    .info-item span {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .info-item strong {
+      font-size: 1rem;
+      color: var(--secondary);
     }
 
     .marks-table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 1.5rem;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid var(--border-color);
+      margin-bottom: 20px;
     }
 
     .marks-table th, .marks-table td {
-      padding: 0.85rem 1rem;
+      padding: 12px 15px;
       text-align: left;
-    }
-
-    .marks-table th.text-center, 
-    .marks-table td.text-center {
-      text-align: center;
+      border-bottom: 1px solid var(--border);
     }
 
     .marks-table th {
-      background-color: #EDF2F7;
-      color: var(--primary-navy);
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .marks-table td {
-      border-top: 1px solid var(--border-color);
+      background: #f8fafc;
       font-weight: 600;
-      font-size: 0.95rem;
+      color: var(--secondary);
     }
 
-    .marks-table tr.total-row {
-      background-color: #F1F5F9;
-      font-size: 1.05rem;
-      font-weight: 800;
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
     }
 
-    .marks-table tr.total-row td {
-      color: var(--primary-navy);
-      border-top: 2px solid #CBD5E1;
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.2s;
     }
 
-    /* Action PDF Button */
     .btn-pdf {
-      width: 100%;
-      background-color: var(--accent-red);
+      background: #ef4444;
       color: white;
-      border: none;
-      padding: 1rem;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
     }
 
-    .btn-pdf:hover {
-      background-color: #B91C1C;
-      transform: translateY(-2px);
+    .btn-print {
+      background: #10b981;
+      color: white;
     }
 
-    /* Skala Gred Section */
-    .scale-card {
-      background: var(--card-white);
-      padding: 1.5rem;
-      border-radius: 16px;
-      border: 1px solid var(--border-color);
-      margin-top: 1.5rem;
+    .btn-action:hover {
+      opacity: 0.9;
     }
 
-    .scale-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    .scale-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--primary-navy);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .scale-toggle-btn {
-      background: none;
-      border: none;
-      color: var(--accent-blue);
-      font-weight: 700;
-      font-size: 0.85rem;
-      cursor: pointer;
-    }
-
-    .scale-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-      font-size: 0.85rem;
-    }
-
-    .scale-table th, .scale-table td {
-      padding: 0.6rem;
+    .error-msg {
+      color: #dc2626;
       text-align: center;
-      border: 1px solid var(--border-color);
+      padding: 10px;
+      display: none;
     }
 
-    .scale-table th {
-      background-color: #F1F5F9;
-      color: var(--primary-navy);
-      font-weight: 700;
-    }
-
-    .scale-table-container {
-      display: block;
-      overflow-x: auto;
-    }
-
-    /* Modal PDF Viewer */
-    .modal-overlay {
+    /* Modal Styling */
+    .modal {
       display: none;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(10, 25, 47, 0.85);
-      z-index: 1000;
-      backdrop-filter: blur(4px);
-      align-items: center;
+      background: rgba(0, 0, 0, 0.6);
       justify-content: center;
-      padding: 1rem;
+      align-items: center;
+      z-index: 1000;
     }
 
-    .modal-container {
-      background-color: white;
-      width: 100%;
-      max-width: 950px;
-      height: 90vh;
-      border-radius: 16px;
+    .modal-content {
+      background: white;
+      width: 90%;
+      max-width: 900px;
+      height: 80vh;
+      border-radius: var(--radius);
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     }
 
     .modal-header {
-      background-color: var(--primary-navy);
+      padding: 15px 20px;
+      background: var(--secondary);
       color: white;
-      padding: 1rem 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 3px solid var(--accent-red);
     }
 
-    .modal-title {
-      font-size: 1rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .btn-close-modal {
-      background: rgba(255, 255, 255, 0.1);
-      border: none;
-      color: white;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      font-size: 1.1rem;
+    .modal-close {
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-
-    .btn-close-modal:hover {
-      background: var(--accent-red);
+      font-size: 1.2rem;
     }
 
     .modal-body {
       flex: 1;
-      background-color: #525659;
-      position: relative;
     }
 
-    .modal-body iframe {
+    iframe {
       width: 100%;
       height: 100%;
       border: none;
     }
 
-    footer {
-      text-align: center;
-      padding: 1.5rem;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      margin-top: auto;
-    }
-
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.4rem; }
-      .input-group { flex-direction: column; }
-      .btn-search { width: 100%; }
-      .card-header-student { flex-direction: column; align-items: flex-start; }
-      .grade-badge-container { text-align: left; }
+    /* Gaya Khas Semasa Mencetak (Print Stylesheet) */
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .container {
+        box-shadow: none;
+        border: none;
+        width: 100%;
+        max-width: 100%;
+      }
+      .search-section, .action-buttons, .modal {
+        display: none !important;
+      }
+      .result-section {
+        display: block !important;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header Header -->
-  <header>
-    <div class="header-container">
-      <span class="badge-tag">Kolej Matrikulasi JOHOR</span>
-      <h1>Sistem Semakan Markah Tugasan Individu Pelajar</h1>
-      <p>Masukkan No. Matrik untuk membuat semakan Tugasan Individu Pelajar</p>
-    </div>
-  </header>
-
-  <!-- Content Container -->
-  <main>
-    <!-- Search Box Card -->
-    <div class="search-card">
-      <div class="search-title">
-        <i class="fa-solid fa-magnifying-glass"></i> Carian Rekod Pelajar
-      </div>
-      <form id="searchForm" onsubmit="event.preventDefault(); semakMarkah();">
-        <div class="input-group">
-          <div class="input-wrapper">
-            <i class="fa-solid fa-id-card"></i>
-            <input type="text" id="matrikInput" placeholder="Contoh: MS2616116907" required autocomplete="off">
-          </div>
-          <button type="submit" class="btn-search">
-            <i class="fa-solid fa-search"></i> Semak Markah
-          </button>
-        </div>
-      </form>
-      <div id="alertBox" class="alert-box">
-        <i class="fa-solid fa-circle-exclamation"></i> Nombor Matrik tidak dijumpai dalam pangkalan data. Sila semak semula.
-      </div>
+  <div class="container">
+    <div class="header">
+      <h1>Kolej Matrikulasi Perak</h1>
+      <p>Sistem Semakan Markah Pentaksiran Berterusan (PB)</p>
     </div>
 
-    <!-- Student Result Card -->
-    <div id="resultCard" class="result-card">
-      <div class="card-header-student">
-        <div class="student-info">
-          <h2 id="resNama">-</h2>
-          <p id="resMatrik">-</p>
+    <div class="search-section">
+      <div class="search-box">
+        <input type="text" id="matrikInput" placeholder="Masukkan Nombor Matrik (cth: MS23123456)">
+        <button class="btn-search" onclick="searchStudent()"><i class="fa-solid fa-magnifying-glass"></i> Cari</button>
+      </div>
+      <div id="errorMsg" class="error-msg">Nombor Matrik tidak dijumpai. Sila cuba lagi.</div>
+    </div>
+
+    <div id="resultSection" class="result-section">
+      <div class="student-info">
+        <div class="info-item">
+          <span>Nama Pelajar</span>
+          <strong id="studentName">-</strong>
         </div>
-        <div class="grade-badge-container">
-          <div class="grade-badge" id="resGredBadge">-</div>
+        <div class="info-item">
+          <span>Nombor Matrik</span>
+          <strong id="studentMatrik">-</strong>
+        </div>
+        <div class="info-item">
+          <span>Kumpulan / Praktikum</span>
+          <strong id="studentKumpulan">-</strong>
         </div>
       </div>
 
-      <div class="card-body-student">
-        <!-- Metadata -->
-        <div class="meta-grid">
-          <div class="meta-item">
-            <span class="label">Praktikum</span>
-            <span class="value" id="resPraktikum">-</span>
-          </div>
-          <div class="meta-item">
-            <span class="label">No. Set Soalan</span>
-            <span class="value" id="resSet">-</span>
-          </div>
-          <div class="meta-item">
-            <span class="label">Nama Pensyarah</span>
-            <span class="value" id="resPensyarah">-</span>
-          </div>
-        </div>
+      <table class="marks-table">
+        <thead>
+          <tr>
+            <th>Komponen Pentaksiran</th>
+            <th>Markah Penuh</th>
+            <th>Markah Diperoleh</th>
+          </tr>
+        </thead>
+        <tbody id="marksBody">
+          <!-- Data markah dimasukkan melalui JS -->
+        </tbody>
+      </table>
 
-        <!-- Marks Table Breakdown -->
-        <div class="marks-title">
-          <i class="fa-solid fa-chart-simple"></i> Pecahan Markah Keseluruhan
-        </div>
-        <table class="marks-table">
-          <thead>
-            <tr>
-              <th>Komponen Penilaian</th>
-              <th class="text-center">Markah Penuh</th>
-              <th class="text-center">Markah Diperoleh</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Markah TI</td>
-              <td class="text-center">45</td>
-              <td class="text-center" id="resTI">-</td>
-            </tr>
-            <tr>
-              <td>Numerical Skill</td>
-              <td class="text-center">5</td>
-              <td class="text-center" id="resNumerical">-</td>
-            </tr>
-            <tr class="total-row">
-              <td>JUMLAH MARKAH</td>
-              <td class="text-center">50</td>
-              <td class="text-center" id="resJumlah">-</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- Preview PDF Button -->
-        <button id="btnViewPDF" class="btn-pdf">
-          <i class="fa-solid fa-file-pdf"></i> Lihat & Muat Turun Tugasan Individu Pelajar
+      <div class="action-buttons">
+        <!-- Butang Cetak Slip Markah -->
+        <button class="btn-action btn-print" onclick="window.print()">
+          <i class="fa-solid fa-print"></i> Cetak Slip Markah
         </button>
-      </div>
-    </div>
-
-    <!-- Skala Gred Card -->
-    <div class="scale-card">
-      <div class="scale-header" onclick="toggleScale()">
-        <div class="scale-title">
-          <i class="fa-solid fa-graduation-cap"></i> Skala Penilaian Gred (Kolej Matrikulasi)
-        </div>
-        <button class="scale-toggle-btn" id="scaleToggleText">Paparkan Skala <i class="fa-solid fa-chevron-down"></i></button>
-      </div>
-      
-      <div id="scaleContent" class="scale-table-container" style="display: none;">
-        <table class="scale-table">
-          <thead>
-            <tr>
-              <th>Markah (/50)</th>
-              <th>Peratus (%)</th>
-              <th>Gred</th>
-              <th>Status Kelulusan</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>40.0 - 50.0</td><td>80% - 100%</td><td><strong>A</strong></td><td>Cemerlang</td></tr>
-            <tr><td>37.5 - 39.9</td><td>75% - 79%</td><td><strong>A-</strong></td><td>Cemerlang</td></tr>
-            <tr><td>35.0 - 37.4</td><td>70% - 74%</td><td><strong>B+</strong></td><td>Kepujian</td></tr>
-            <tr><td>32.5 - 34.9</td><td>65% - 69%</td><td><strong>B</strong></td><td>Kepujian</td></tr>
-            <tr><td>30.0 - 32.4</td><td>60% - 64%</td><td><strong>B-</strong></td><td>Kepujian</td></tr>
-            <tr><td>27.5 - 29.9</td><td>55% - 59%</td><td><strong>C+</strong></td><td>Lulus</td></tr>
-            <tr><td>25.0 - 27.4</td><td>50% - 54%</td><td><strong>C</strong></td><td>Lulus</td></tr>
-            <tr><td>20.0 - 24.9</td><td>40% - 49%</td><td><strong>D</strong></td><td>Lulus Sebahagian</td></tr>
-            <tr><td>0.0 - 19.9</td><td>0% - 39%</td><td><strong>F</strong></td><td>Gagal</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </main>
-
-  <!-- Modal PDF Previewer -->
-  <div id="pdfModal" class="modal-overlay">
-    <div class="modal-container">
-      <div class="modal-header">
-        <div class="modal-title">
-          <i class="fa-solid fa-file-pdf"></i> Paparan Tugasan Individu Pelajar
-        </div>
-        <button class="btn-close-modal" onclick="closeModal()">
-          <i class="fa-solid fa-xmark"></i>
+        <!-- Butang Lihat PDF Tugasan -->
+        <button class="btn-action btn-pdf" id="viewPdfBtn" onclick="openPdfModal()">
+          <i class="fa-solid fa-file-pdf"></i> Lihat / Muat Turun Tugasan
         </button>
-      </div>
-      <div class="modal-body">
-        <iframe id="pdfFrame" src="" allow="autoplay"></iframe>
       </div>
     </div>
   </div>
 
-  <footer>
-    &copy; 2026 Hak Cipta Terpelihara ARZK - Sistem Semakan Markah Pelajar Matrikulasi
-  </footer>
+  <!-- Modal untuk Paparan PDF -->
+  <div id="pdfModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span>Paparan Semakan Tugasan Individu</span>
+        <span class="modal-close" onclick="closePdfModal()"><i class="fa-solid fa-xmark"></i></span>
+      </div>
+      <div class="modal-body">
+        <iframe id="pdfFrame" src=""></iframe>
+      </div>
+    </div>
+  </div>
 
   <script>
-    // Pangkalan Data 94 Pelajar Rasmi
+    // Pangkalan Data Contoh
     const database = [
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "ADRIANA AINUL HAYAT BINTI MUHAMMAD NOR FADZLI", matrik: "MS2616116907", praktikum: "H24", set: "SET 1", pdf: "https://drive.google.com/open?id=1d6bI0OrQP7eIx2VI5MVx1dLFElcMIbe-", ti: 45, numerical: 5, jumlah: 50 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "AMINAH FATIMAH BINTI ROSLI", matrik: "MS2616204097", praktikum: "H24", set: "SET 1", pdf: "https://drive.google.com/open?id=1DPuc9nNY7ceQ3ETYD9ASV-6yFqP6RV6_", ti: 45, numerical: 4.5, jumlah: 49.5 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "BALQIS SAFIYYAH BINTI ZAINAL ABIDIN", matrik: "MS2616116438", praktikum: "H24", set: "SET 1", pdf: "https://drive.google.com/open?id=164FloQRM0wd6MF9jRRnF_P5uXShFJ5lX", ti: 44, numerical: 4.5, jumlah: 48.5 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "MUHAMMAD RYAN AFFIE BIN MOHD SAIFUL AFFENDY", matrik: "MS2616117328", praktikum: "H24", set: "SET 1", pdf: "https://drive.google.com/open?id=1VGNLiT-QdXWHN7Wp6ktApqPtlz760fmS", ti: 45, numerical: 5, jumlah: 50 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "NUR IFFAH ZARIFAH BINTI MOHD.HIDZAM", matrik: "MS2616116269", praktikum: "H24", set: "SET 1", pdf: "https://drive.google.com/open?id=1TTERMCY6w_S1Zfoxf2riO1FJlLoyNDgs", ti: 44, numerical: 5, jumlah: 49 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "NUR INSYIRAH NAZIRAH BINTI AZMAN", matrik: "MS2616117503", praktikum: "H24", set: "SET 1", pdf: "https://drive.google.com/open?id=1u59rLU6ODnjnuVHWEL7pAM8dxvlZTDBf", ti: 44, numerical: 4.5, jumlah: 48.5 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "NURUL KHADIJAH BINTI ABDUL HALIM", matrik: "MS2616117896", praktikum: "H24", set: "SET 1", pdf: "https://drive.google.com/open?id=1S41HVds0SG-O8PwlsOeHMf9blA7YrKFV", ti: 45, numerical: 4.5, jumlah: 49.5 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "SITI NURAFINA BINTI MOHAMAD NORIZAN", matrik: "MS2616117384", praktikum: "H24", set: "SET 1", pdf: "https://drive.google.com/open?id=1Qp6hWgtqRLpXtWX-tnyL0wbwppxVuMj3", ti: 45, numerical: 5, jumlah: 50 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "CHIA JIA HONG", matrik: "MS2616117372", praktikum: "H24", set: "SET 2", pdf: "https://drive.google.com/open?id=1LgfkuMK_FkMY-iLsMHorI040YBoFHPMR", ti: 44, numerical: 4.5, jumlah: 48.5 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "HASWEENA ARIYANA BINTI MOHD HAZANI", matrik: "MS2616117455", praktikum: "H24", set: "SET 2", pdf: "https://drive.google.com/open?id=1v9AFY7BmHonTqDHEydeMlgfrQpN4cgHQ", ti: 43, numerical: 4, jumlah: 47 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "HO KAI WEN", matrik: "MS2616190173", praktikum: "H24", set: "SET 2", pdf: "https://drive.google.com/open?id=1Mj2fnipzdGkJIU4EumJcRuSk84kAJKic", ti: 45, numerical: 5, jumlah: 50 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "NURIN IZZAH IRDINA BINTI ZUBIR", matrik: "MS2616116123", praktikum: "H24", set: "SET 2", pdf: "https://drive.google.com/open?id=1O6yibw-Ltu6XZVkYFwcg0-tt9h-IDxrZ", ti: 44, numerical: 5, jumlah: 49 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "QUEE LI MING", matrik: "MS2616116682", praktikum: "H24", set: "SET 2", pdf: "https://drive.google.com/open?id=1K4blJf7iAEOa98os759OZyEC0DPzRavJ", ti: 45, numerical: 5, jumlah: 50 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "SHASA EZATI BINTI AHMAD SHABRI", matrik: "MS2616116437", praktikum: "H24", set: "SET 2", pdf: "https://drive.google.com/open?id=1T5u6gz00SF7w52qw7uuG6QA3WFcQSPCG", ti: 45, numerical: 5, jumlah: 50 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "SUJITHRAN A/L SIVAK KUMAR", matrik: "MS2616117857", praktikum: "H24", set: "SET 2", pdf: "https://drive.google.com/open?id=1fX6VvH-YkGuEU8e0059TSZKJ9sP7E-QW", ti: 45, numerical: 5, jumlah: 50 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "TEOH JAELYN", matrik: "MS2616400263", praktikum: "H24", set: "SET 2", pdf: "https://drive.google.com/open?id=13h7tyIfGdqjkLZ6xyJzQxkN8TxuZHFJR", ti: 44, numerical: 5, jumlah: 49 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "TEY CHU XIN", matrik: "MS2616117135", praktikum: "H24", set: "SET 2", pdf: "https://drive.google.com/open?id=1IWU3vPfXPNFNnpIVTSY7nW3QhhfAEuhl", ti: 45, numerical: 4.5, jumlah: 49.5 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "AMANINA IZZATI BINTI MUHAMMAD HAKIM", matrik: "MS2616117370", praktikum: "H24", set: "SET 3", pdf: "https://drive.google.com/open?id=1fL66VHP0LoAbo81Wgl8jxSF9FVWlgs2J", ti: 45, numerical: 5, jumlah: 50 },
-      { pensyarah: "ABDUL RAZAK BIN AZIT", nama: "CHARMAINE TEH JING XUAN", matrik: "MS2616116574", praktikum: "H24", set: "SET 3", pdf: "https://drive.google.com/open?id=16HA_3BFlIpVxg4kxVXb622CqH436N0Py", ti: 45, numerical: 5, jumlah: 50 },
+      {
+        matrik: "MS23123456",
+        nama: "Ahmad Bin Abdullah",
+        kumpulan: "H1T1",
+        quiz: 18,
+        tugasan: 28,
+        ujian: 42,
+        pdfUrl: "https://drive.google.com/file/d/1EXAMPLERESOURCEID/preview"
+      },
+      {
+        matrik: "MS23654321",
+        nama: "Siti Nurhaliza Binti Abu",
+        kumpulan: "H2T3",
+        quiz: 20,
+        tugasan: 30,
+        ujian: 45,
+        pdfUrl: "https://drive.google.com/file/d/1ANOTHEREXAMPLEID/preview"
+      }
     ];
 
-    // Pengiraan Gred Automatik Sahaja (Tanpa PNG)
-    function kiraGred(markahJumlah) {
-      if (markahJumlah >= 40.0) return { gred: "A", class: "grade-A" };
-      if (markahJumlah >= 37.5) return { gred: "A-", class: "grade-A-minus" };
-      if (markahJumlah >= 35.0) return { gred: "B+", class: "grade-B-plus" };
-      if (markahJumlah >= 32.5) return { gred: "B", class: "grade-B" };
-      if (markahJumlah >= 30.0) return { gred: "B-", class: "grade-B-minus" };
-      if (markahJumlah >= 27.5) return { gred: "C+", class: "grade-C-plus" };
-      if (markahJumlah >= 25.0) return { gred: "C", class: "grade-C" };
-      if (markahJumlah >= 20.0) return { gred: "D", class: "grade-D" };
-      return { gred: "F", class: "grade-F" };
-    }
+    let currentPdfUrl = "";
 
-    // Convert Drive Link to Embed Preview Format
-    function convertDriveLinkToPreview(url) {
-      if (!url) return "";
-      let fileId = "";
-      if (url.includes("id=")) {
-        fileId = url.split("id=")[1].split("&")[0];
-      } else if (url.includes("/file/d/")) {
-        fileId = url.split("/file/d/")[1].split("/")[0];
-      }
-      return fileId ? `https://drive.google.com/file/d/${fileId}/preview` : url;
-    }
-
-    // Function Semak Markah
-    function semakMarkah() {
+    function searchStudent() {
       const input = document.getElementById("matrikInput").value.trim().toUpperCase();
-      const alertBox = document.getElementById("alertBox");
-      const resultCard = document.getElementById("resultCard");
+      const resultSection = document.getElementById("resultSection");
+      const errorMsg = document.getElementById("errorMsg");
 
-      // Carian berdasarkan Matrik
-      const student = database.find(s => s.matrik.toUpperCase() === input);
+      const student = database.find(s => s.matrik === input);
 
       if (student) {
-        alertBox.style.display = "none";
+        errorMsg.style.display = "none";
+        
+        // Kemaskini Maklumat Pelajar
+        document.getElementById("studentName").innerText = student.nama;
+        document.getElementById("studentMatrik").innerText = student.matrik;
+        document.getElementById("studentKumpulan").innerText = student.kumpulan;
 
-        // Gred calculation
-        const gredInfo = kiraGred(student.jumlah);
+        // Kemaskini Markah
+        const marksBody = document.getElementById("marksBody");
+        const totalMark = student.quiz + student.tugasan + student.ujian;
+        
+        marksBody.innerHTML = `
+          <tr>
+            <td>Kuiz</td>
+            <td>20</td>
+            <td>${student.quiz}</td>
+          </tr>
+          <tr>
+            <td>Tugasan Individu</td>
+            <td>30</td>
+            <td>${student.tugasan}</td>
+          </tr>
+          <tr>
+            <td>Ujian Pertengahan Semester</td>
+            <td>50</td>
+            <td>${student.ujian}</td>
+          </tr>
+          <tr style="font-weight: bold; background: #f8fafc;">
+            <td>Jumlah Keseluruhan PB</td>
+            <td>100</td>
+            <td>${totalMark}</td>
+          </tr>
+        `;
 
-        // Populate Data
-        document.getElementById("resNama").innerText = student.nama;
-        document.getElementById("resMatrik").innerText = "NO. MATRIK: " + student.matrik;
-        document.getElementById("resPraktikum").innerText = student.praktikum;
-        document.getElementById("resSet").innerText = student.set;
-        document.getElementById("resPensyarah").innerText = student.pensyarah;
-
-        document.getElementById("resTI").innerText = student.ti;
-        document.getElementById("resNumerical").innerText = student.numerical;
-        document.getElementById("resJumlah").innerText = student.jumlah;
-
-        // Gred Badge
-        const badge = document.getElementById("resGredBadge");
-        badge.innerText = "GRED " + gredInfo.gred;
-        badge.className = "grade-badge " + gredInfo.class;
-
-        // Button Click to Modal Viewer
-        const previewUrl = convertDriveLinkToPreview(student.pdf);
-        document.getElementById("btnViewPDF").onclick = function() {
-          openModal(previewUrl);
-        };
-
-        resultCard.style.display = "block";
+        currentPdfUrl = student.pdfUrl;
+        resultSection.style.display = "block";
       } else {
-        resultCard.style.display = "none";
-        alertBox.style.display = "block";
+        resultSection.style.display = "none";
+        errorMsg.style.display = "block";
       }
     }
 
-    // Modal PDF Viewer Functions
-    function openModal(pdfUrl) {
-      const modal = document.getElementById("pdfModal");
-      const frame = document.getElementById("pdfFrame");
-      frame.src = pdfUrl;
-      modal.style.display = "flex";
-    }
-
-    function closeModal() {
-      const modal = document.getElementById("pdfModal");
-      const frame = document.getElementById("pdfFrame");
-      frame.src = "";
-      modal.style.display = "none";
-    }
-
-    // Skala Toggle
-    function toggleScale() {
-      const content = document.getElementById("scaleContent");
-      const toggleText = document.getElementById("scaleToggleText");
-      if (content.style.display === "none") {
-        content.style.display = "block";
-        toggleText.innerHTML = 'Sembunyikan <i class="fa-solid fa-chevron-up"></i>';
-      } else {
-        content.style.display = "none";
-        toggleText.innerHTML = 'Paparkan Skala <i class="fa-solid fa-chevron-down"></i>';
+    function openPdfModal() {
+      if (currentPdfUrl) {
+        document.getElementById("pdfFrame").src = currentPdfUrl;
+        document.getElementById("pdfModal").style.display = "flex";
       }
+    }
+
+    function closePdfModal() {
+      document.getElementById("pdfModal").style.display = "none";
+      document.getElementById("pdfFrame").src = "";
     }
   </script>
 </body>

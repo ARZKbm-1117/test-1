@@ -1,425 +1,649 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistem Semakan Markah PB - Kolej Matrikulasi Perak</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <style>
-    :root {
-      --primary: #1e3a8a;
-      --primary-light: #3b82f6;
-      --secondary: #0f172a;
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --text: #334155;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-      --radius: 12px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Kemasukan Markah Pelajar</title>
+    <style>
+        :root {
+            --petronas-emerald: #00A396;
+            --petronas-dark: #002B2B;
+            --petronas-light: #E6F5F4;
+            --accent-gray: #F4F6F8;
+            --text-color: #2C3E50;
+            --pdf-red: #D9534F;
+            --pdf-red-hover: #C9302C;
+            --skema-blue: #0275d8;
+            --skema-blue-hover: #025aa5;
+        }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-    }
+        * { box-sizing: border-box; }
 
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--accent-gray);
+            color: var(--text-color);
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column;
+            min-height: 100vh; width: 100%;
+            overflow-x: hidden;
+        }
 
-    .container {
-      background: var(--surface);
-      width: 100%;
-      max-width: 800px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
-      overflow: hidden;
-    }
+        .header {
+            background-color: var(--petronas-dark);
+            border-bottom: 5px solid var(--petronas-emerald);
+            color: white; padding: 20px 15px; text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); width: 100%;
+        }
 
-    .header {
-      background: linear-gradient(135deg, var(--primary), #1e40af);
-      color: white;
-      padding: 30px 20px;
-      text-align: center;
-    }
+        .header h1 { margin: 0; font-size: 22px; letter-spacing: 1px; word-wrap: break-word; }
+        .header p { margin: 5px 0 0 0; font-size: 13px; letter-spacing: 1.2px; color: var(--petronas-light); font-weight: 500; }
 
-    .header h1 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
+        .container { width: 100%; max-width: 950px; margin: 20px auto; padding: 0 15px; flex: 1; }
+        .card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; width: 100%; }
 
-    .header p {
-      font-size: 0.9rem;
-      opacity: 0.9;
-      margin-top: 5px;
-    }
+        .search-box { display: flex; gap: 10px; margin-top: 15px; }
+        input[type="text"], input[type="number"], input[type="file"] { padding: 10px; border: 2px solid #DDD; border-radius: 6px; font-size: 14px; transition: all 0.3s; width: 100%; }
+        #inputMatric { text-transform: uppercase; }
+        input[type="text"]:focus, input[type="number"]:focus { border-color: var(--petronas-emerald); outline: none; }
 
-    .search-section {
-      padding: 30px 20px 10px 20px;
-    }
+        .btn { background-color: var(--petronas-emerald); color: white; border: none; padding: 10px 18px; font-size: 14px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: background 0.3s; white-space: nowrap; }
+        .btn:hover { background-color: #008278; }
 
-    .search-box {
-      display: flex;
-      gap: 10px;
-      max-width: 500px;
-      margin: 0 auto;
-    }
+        .btn-pdf-pro {
+            background-color: var(--pdf-red); color: white !important; border: none; padding: 6px 12px; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; text-decoration: none !important; display: inline-flex; align-items: center; gap: 6px; transition: all 0.25s ease; box-shadow: 0 2px 5px rgba(217, 83, 79, 0.25);
+        }
+        .btn-pdf-pro:hover { background-color: var(--pdf-red-hover); transform: translateY(-1px); }
 
-    input[type="text"] {
-      flex: 1;
-      padding: 12px 16px;
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
+        .btn-skema-pro {
+            background-color: var(--skema-blue); color: white !important; border: none; padding: 6px 12px; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; text-decoration: none !important; display: inline-flex; align-items: center; gap: 6px; transition: all 0.25s ease; box-shadow: 0 2px 5px rgba(2, 117, 216, 0.25);
+        }
+        .btn-skema-pro:hover { background-color: var(--skema-blue-hover); transform: translateY(-1px); }
 
-    input[type="text"]:focus {
-      border-color: var(--primary-light);
-    }
+        .btn-pdf-pro svg, .btn-skema-pro svg { width: 15px; height: 15px; fill: currentColor; flex-shrink: 0; }
+        .btn-print { background-color: var(--petronas-dark); color: white; border: none; padding: 12px 20px; font-size: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: background 0.3s; }
+        .btn-print:hover { background-color: #001a1a; }
 
-    button.btn-search {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
+        .profile-container { display: flex; align-items: center; gap: 20px; border-bottom: 2px solid var(--petronas-light); padding-bottom: 20px; margin-bottom: 20px; }
+        .profile-img { width: 110px; height: 130px; border-radius: 8px; object-fit: cover; border: 3px solid var(--petronas-emerald); box-shadow: 0 4px 8px rgba(0,0,0,0.1); flex-shrink: 0; }
+        .profile-info { flex: 1; width: 100%; }
+        .profile-details-grid { display: grid; grid-template-columns: 160px 15px auto; align-items: center; row-gap: 10px; }
+        .profile-label { font-weight: bold; font-size: 14px; color: var(--petronas-dark); }
+        .profile-colon { font-weight: bold; font-size: 14px; color: var(--petronas-dark); text-align: center; }
+        .profile-badge { background-color: var(--petronas-light); color: var(--petronas-dark); font-weight: 700; font-size: 14px; padding: 4px 10px; border-radius: 5px; border: 1px solid var(--petronas-emerald); letter-spacing: 0.5px; display: inline-block; word-break: break-word; }
 
-    button.btn-search:hover {
-      background: #1d4ed8;
-    }
+        .upload-section { background-color: #f8f9fa; border: 2px dashed #ccc; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .table-responsive { width: 100%; overflow-x: auto; }
 
-    .result-section {
-      padding: 20px 30px 30px 30px;
-      display: none;
-    }
+        .set-header-row {
+            display: grid; grid-template-columns: 1.8fr 0.8fr 0.8fr 1.6fr 2.5fr; align-items: center; gap: 10px; padding: 12px; background-color: var(--petronas-dark); color: white; font-weight: bold; font-size: 13px; border-radius: 6px 6px 0 0; letter-spacing: 0.5px; min-width: 820px;
+        }
 
-    .student-info {
-      background: #f1f5f9;
-      padding: 15px 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 10px;
-    }
+        .text-center { text-align: center; }
+        .set-row { display: grid; grid-template-columns: 1.8fr 0.8fr 0.8fr 1.6fr 2.5fr; align-items: center; gap: 10px; padding: 12px; border-bottom: 1px solid #EEE; min-width: 820px; }
+        .set-row:nth-child(even) { background-color: #FAFAFA; }
 
-    .info-item span {
-      display: block;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
+        .mark-input { width: 70px; text-align: center; font-weight: bold; margin: 0 auto; display: block; }
+        .mark-input:disabled { background-color: #E9ECEF; color: #495057; border: 1px solid #CED4DA; cursor: not-allowed; opacity: 0.85; }
+        .grade-badge { font-weight: bold; padding: 5px 10px; border-radius: 4px; display: inline-block; text-align: center; width: 40px; background-color: var(--petronas-light); color: var(--petronas-dark); }
+        .timestamp { font-size: 12px; color: #666; }
 
-    .info-item strong {
-      font-size: 1rem;
-      color: var(--secondary);
-    }
+        .action-buttons-cell { display: flex; flex-direction: column; gap: 6px; }
+        .upload-cell { background: #f8f9fa; border: 1px dashed #ccc; padding: 8px; border-radius: 6px; font-size: 12px; }
+        .preview-container { margin-top: 8px; border: 1px solid #ddd; border-radius: 6px; overflow: hidden; display: none; }
+        .preview-container iframe { width: 100%; height: 220px; border: none; }
 
-    .marks-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
+        .auto-save-bar {
+            position: fixed; bottom: 20px; right: 20px; background-color: var(--petronas-dark); color: white; padding: 10px 18px; border-radius: 30px; font-size: 13px; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px; z-index: 999; transition: all 0.3s ease; opacity: 0; pointer-events: none;
+        }
+        .auto-save-bar.show { opacity: 1; pointer-events: auto; }
 
-    .marks-table th, .marks-table td {
-      padding: 12px 15px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
+        .hidden { display: none; }
+        .alert { padding: 15px; background-color: #f8d7da; color: #721c24; border-radius: 6px; margin-top: 15px; }
+        .footer { text-align: center; padding: 15px; font-size: 13px; font-style: italic; color: #666; background-color: white; border-top: 1px solid #E0E0E0; margin-top: 30px; width: 100%; }
 
-    .marks-table th {
-      background: #f8fafc;
-      font-weight: 600;
-      color: var(--secondary);
-    }
+        @media screen and (max-width: 768px) {
+            .container { padding: 0 10px; margin: 10px auto; }
+            .header h1 { font-size: 18px; }
+            .header p { font-size: 12px; }
+            .search-box { flex-direction: column; }
+            .btn { width: 100%; }
+            .profile-container { flex-direction: column; text-align: center; }
+            .profile-img { margin: 0 auto; }
+            .profile-details-grid { grid-template-columns: 1fr; row-gap: 5px; text-align: center; }
+            .profile-colon { display: none; }
+            .profile-label { margin-top: 8px; }
+            .btn-action-container { text-align: center; }
+            .btn-print { width: 100%; }
 
-    .action-buttons {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-    }
+            .set-header-row { display: none !important; }
+            .set-row {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                min-width: 100% !important;
+                background: #ffffff;
+                border: 1px solid var(--petronas-light);
+                border-left: 5px solid var(--petronas-emerald);
+                border-radius: 8px;
+                padding: 15px;
+                margin-bottom: 15px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            }
+            .set-row:nth-child(even) { background-color: #ffffff; }
 
-    .btn-action {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 18px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      border: none;
-      transition: opacity 0.2s;
-    }
+            .mark-input {
+                width: 100% !important;
+                max-width: 120px;
+                font-size: 16px;
+                padding: 8px;
+            }
 
-    .btn-pdf {
-      background: #ef4444;
-      color: white;
-    }
+            .grade-badge {
+                font-size: 16px;
+                padding: 6px 15px;
+                width: auto;
+            }
 
-    .btn-print {
-      background: #10b981;
-      color: white;
-    }
+            .action-buttons-cell {
+                flex-direction: row;
+                justify-content: center;
+                gap: 8px;
+                width: 100%;
+            }
 
-    .btn-action:hover {
-      opacity: 0.9;
-    }
+            .btn-pdf-pro, .btn-skema-pro {
+                flex: 1;
+                justify-content: center;
+                padding: 8px 10px;
+                font-size: 12px;
+            }
 
-    .error-msg {
-      color: #dc2626;
-      text-align: center;
-      padding: 10px;
-      display: none;
-    }
+            .upload-cell {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 10px;
+                background-color: #F8F9FA;
+                border: 1px dashed var(--petronas-emerald);
+            }
 
-    /* Modal Styling */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
+            .upload-cell input[type="file"] { font-size: 11px; }
+            .preview-container iframe { height: 180px; }
+        }
 
-    .modal-content {
-      background: white;
-      width: 90%;
-      max-width: 900px;
-      height: 80vh;
-      border-radius: var(--radius);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .modal-header {
-      padding: 15px 20px;
-      background: var(--secondary);
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .modal-close {
-      cursor: pointer;
-      font-size: 1.2rem;
-    }
-
-    .modal-body {
-      flex: 1;
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* Gaya Khas Semasa Mencetak (Print Stylesheet) */
-    @media print {
-      body {
-        background: white;
-        padding: 0;
-      }
-      .container {
-        box-shadow: none;
-        border: none;
-        width: 100%;
-        max-width: 100%;
-      }
-      .search-section, .action-buttons, .modal {
-        display: none !important;
-      }
-      .result-section {
-        display: block !important;
-      }
-    }
-  </style>
+        @media print {
+            body { background-color: white; }
+            .header, .search-card, .btn-action-container, .footer, .upload-section, .upload-cell, .action-buttons-cell, .auto-save-bar { display: none !important; }
+            .container { max-width: 100%; margin: 0; padding: 0; }
+            .card { box-shadow: none; border: none; padding: 0; }
+            input[type="number"] { border: none; background: transparent; }
+        }
+    </style>
 </head>
 <body>
 
-  <div class="container">
     <div class="header">
-      <h1>Kolej Matrikulasi Perak</h1>
-      <p>Sistem Semakan Markah Pentaksiran Berterusan (PB)</p>
+        <h1>PORTAL KEMASUKAN MARKAH TRIAL DAN WOW PROGRAM</h1>
+        <p>KOLEJ MATRIKULASI JOHOR</p>
     </div>
 
-    <div class="search-section">
-      <div class="search-box">
-        <input type="text" id="matrikInput" placeholder="Masukkan Nombor Matrik (cth: MS23123456)">
-        <button class="btn-search" onclick="searchStudent()"><i class="fa-solid fa-magnifying-glass"></i> Cari</button>
-      </div>
-      <div id="errorMsg" class="error-msg">Nombor Matrik tidak dijumpai. Sila cuba lagi.</div>
-    </div>
-
-    <div id="resultSection" class="result-section">
-      <div class="student-info">
-        <div class="info-item">
-          <span>Nama Pelajar</span>
-          <strong id="studentName">-</strong>
+    <div class="container">
+        <!-- Carian Pelajar -->
+        <div class="card search-card">
+            <h2 style="font-size: 18px; margin-top: 0;">Sila Masukkan No. Matrik</h2>
+            <div class="search-box">
+                <input type="text" id="inputMatric" placeholder="Contoh: MS2616116123" oninput="this.value = this.value.toUpperCase()">
+                <button class="btn" onclick="searchStudent()">Cari Pelajar</button>
+            </div>
+            <div id="searchAlert" class="alert hidden">No. Matrik tidak dijumpai dalam rekod database! Sila pastikan format matrik adalah betul.</div>
         </div>
-        <div class="info-item">
-          <span>Nombor Matrik</span>
-          <strong id="studentMatrik">-</strong>
+
+        <!-- Paparan Dashboard -->
+        <div id="dashboardSection" class="card hidden">
+            <!-- Profil Pelajar -->
+            <div class="profile-container">
+                <img id="studentPhoto" src="" alt="Gambar Pelajar" class="profile-img">
+                <div class="profile-info">
+                    <div class="profile-details-grid">
+                        <div class="profile-label">NAMA PELAJAR</div>
+                        <div class="profile-colon">:</div>
+                        <div><span id="studentName" class="profile-badge">-</span></div>
+
+                        <div class="profile-label">NO. MATRIK</div>
+                        <div class="profile-colon">:</div>
+                        <div><span id="studentMatric" class="profile-badge">-</span></div>
+
+                        <div class="profile-label">PRAKTIKUM</div>
+                        <div class="profile-colon">:</div>
+                        <div><span id="studentPraktikum" class="profile-badge">-</span></div>
+
+                        <div class="profile-label">NAMA PENSYARAH</div>
+                        <div class="profile-colon">:</div>
+                        <div><span class="profile-badge">ABDUL RAZAK BIN AZIT</span></div>
+
+                        <div class="profile-label">SOALAN TRIAL PSPSM 1</div>
+                        <div class="profile-colon">:</div>
+                        <div id="trialQuestionContainer">
+                            <span style="font-size: 13px; color: #888;">Tiada Pautan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Muat Naik Jawapan Trial PDF -->
+            <div class="upload-section">
+                <h3 style="margin-top:0; font-size:16px;">📄 Muat Naik Jawapan Trial Pelajar (PDF)</h3>
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <input type="file" id="pdfFileInput" accept="application/pdf" style="max-width: 350px;">
+                    <button class="btn" id="uploadPdfBtn" onclick="uploadStudentAnswerPdf()">Muat Naik Jawapan Trial</button>
+                </div>
+                <div id="pdfStatus" style="margin-top: 10px; font-size: 14px;"></div>
+            </div>
+
+            <!-- Jadual Markah -->
+            <h2 style="font-size: 18px;">Kemaskini Markah Pelajar</h2>
+
+            <div class="table-responsive">
+                <div class="set-header-row">
+                    <div class="text-center">SET / PENILAIAN</div>
+                    <div class="text-center">MARKAH</div>
+                    <div class="text-center">GRED</div>
+                    <div class="text-center">SOALAN & SKEMA</div>
+                    <div class="text-center">MUAT NAIK JAWAPAN SET</div>
+                </div>
+
+                <div id="marksForm"></div>
+            </div>
+
+            <div class="btn-action-container" style="margin-top: 25px; text-align: right;">
+                <button class="btn-print" onclick="window.print()">🖨️ Cetak Slip Markah</button>
+            </div>
         </div>
-        <div class="info-item">
-          <span>Kumpulan / Praktikum</span>
-          <strong id="studentKumpulan">-</strong>
+    </div>
+
+    <!-- Notifikasi Auto-Save -->
+    <div id="autoSaveNotification" class="auto-save-bar">
+        <span id="autoSaveText">💾 Auto-saving...</span>
+    </div>
+
+    <div class="footer">
+        Hak Cipta Terpelihara ARZK
+    </div>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwwJOP8wtQljR8D49AZydf-ub_tQoIDea-qC--qRAWCCdzNOm8Vm7VelzDO7CtOPFe6/exec";
+
+        const setLinks = {
+            1: { question: "https://drive.google.com/file/d/1ulfrBXbBsBB_dqFaajj2nyt9CKs8BBjL/view?usp=sharing", schema: "https://drive.google.com/file/d/1rhYX4bBIK39Z7lVPqRUeePtHlxr3pLe2/view?usp=sharing" },
+            2: { question: "https://drive.google.com/file/d/1vXa46cSmxLOJOk8D2UvngtsFmyi3KH-T/view?usp=sharing", schema: "https://drive.google.com/file/d/1XZYsd5DKtf2SFm0uRZM5sbMYcxxYx9fM/view?usp=sharing" },
+            3: { question: "https://drive.google.com/file/d/1tSuEWbm1WxQ8TECfkFII8e2pl0P2We5u/view?usp=sharing", schema: "https://drive.google.com/file/d/18iKSc8G_d0fUgh-wNUVnvT8_qf12GWUh/view?usp=sharing" },
+            4: { question: "https://drive.google.com/file/d/1SP7p-iyo_Udws36smoDCenf9ud9bN6_t/view?usp=sharing", schema: "https://drive.google.com/file/d/17ljyRPow7Keem-2ls-7uu6UnvWnWqUlQ/view?usp=sharing" },
+            5: { question: "https://drive.google.com/file/d/1jUi-K5kyqONRaQOJ0w70UON165p-QMxQ/view?usp=sharing", schema: "https://drive.google.com/file/d/1-_myg0iNPuumkteK4VlpZo_JR850rlLO/view?usp=sharing" },
+            6: { question: "https://drive.google.com/file/d/1f8aHYHiPwWHdHxWR5QQQwHilpTU5qklp/view?usp=sharing", schema: "https://drive.google.com/file/d/1KqDEhIaW6_egSdPjP_Z7ev2lu7unaO8E/view?usp=sharing" }
+        };
+
+        let currentStudentData = null;
+
+        const pdfSvgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M181.9 256.1c-5.2-16-15.5-29.9-29.9-39.6 12.4-23.3 22-48.4 28.5-74.8 13.9 12.3 32 20.3 52.1 21.6 1.5 8.1 2.3 16.5 2.3 25.1 0 35.1-13.9 67.9-38.3 92.5-4.8-8.2-10-16.5-14.7-24.8zM288 32c0-17.7-14.3-32-32-32H32C14.3 0 0 14.3 0 32v448c0 17.7 14.3 32 32 32h320c17.7 0 32-14.3 32-32V128L288 32zM160 432c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm144-112c-20.9 0-40.6-5.8-57.8-15.9 31.9-32.5 51.8-76.4 51.8-124.1 0-14.1-1.7-27.8-4.8-40.9 18.5-2.2 35.2-9.9 48.8-21.7V400c0 8.8-7.2 16-16 16h-22c-8.8 0-16-7.2-16-16v-80z"/></svg>`;
+        const skemaSvgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M336 0c-26.5 0-48 21.5-48 48v224c0 26.5 21.5 48 48 48h128c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48H336zm128 224H336V96h128v128zM64 256c-35.3 0-64 28.7-64 64v128c0 35.3 28.7 64 64 64h192c35.3 0 64-28.7 64-64V320c0-35.3-28.7-64-64-64H64zm192 192H64V320h192v128z"/></svg>`;
+
+        function calculateGrade(mark) {
+            if (mark === "" || mark === null || isNaN(mark)) return "-";
+            let m = parseFloat(mark);
+            if (m >= 80) return "A";
+            if (m >= 75) return "A-";
+            if (m >= 70) return "B+";
+            if (m >= 65) return "B";
+            if (m >= 60) return "B-";
+            if (m >= 55) return "C+";
+            if (m >= 50) return "C";
+            if (m >= 45) return "C-";
+            if (m >= 40) return "D+";
+            if (m >= 35) return "D";
+            return "F";
+        }
+
+        function formatDriveImageUrl(url) {
+            if (!url) return 'https://via.placeholder.com/150';
+            if (url.includes("drive.google.com")) {
+                let idMatch = url.match(/id=([a-zA-Z0-9_-]+)/) || url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                if (idMatch && idMatch[1]) {
+                    return `https://lh3.googleusercontent.com/d/${idMatch[1]}`;
+                }
+            }
+            return url;
+        }
+
+        function getDriveEmbedUrl(url) {
+            if (!url) return '';
+            let idMatch = url.match(/id=([a-zA-Z0-9_-]+)/) || url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+            if (idMatch && idMatch[1]) {
+                return `https://drive.google.com/file/d/${idMatch[1]}/preview`;
+            }
+            return url;
+        }
+
+        function showNotification(text, duration = 2500) {
+            const bar = document.getElementById("autoSaveNotification");
+            const barText = document.getElementById("autoSaveText");
+            barText.innerText = text;
+            bar.classList.add("show");
+            setTimeout(() => { bar.classList.remove("show"); }, duration);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedMatric = localStorage.getItem('lastSearchedMatric');
+            if (savedMatric) {
+                document.getElementById("inputMatric").value = savedMatric;
+                searchStudent();
+            }
+        });
+
+        async function searchStudent() {
+            const matric = document.getElementById("inputMatric").value.trim().toUpperCase();
+            const alertBox = document.getElementById("searchAlert");
+            const dashboard = document.getElementById("dashboardSection");
+
+            if (!matric) {
+                alert("Sila masukkan No. Matrik terlebih dahulu!");
+                return;
+            }
+
+            alertBox.classList.add("hidden");
+
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getStudent&matric=${encodeURIComponent(matric)}`);
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    currentStudentData = result.data;
+                    if(!currentStudentData.setAnswerLinks) currentStudentData.setAnswerLinks = {};
+
+                    const localData = JSON.parse(localStorage.getItem(`student_${matric}`));
+                    if (localData && localData.setAnswerLinks) {
+                        currentStudentData.setAnswerLinks = { ...currentStudentData.setAnswerLinks, ...localData.setAnswerLinks };
+                    }
+
+                    localStorage.setItem('lastSearchedMatric', matric);
+                    saveToLocalStorage();
+
+                    renderDashboard(currentStudentData);
+                    dashboard.classList.remove("hidden");
+                } else {
+                    dashboard.classList.add("hidden");
+                    alertBox.classList.remove("hidden");
+                }
+            } catch (err) {
+                alert("Ralat semasa berhubung dengan database.");
+                console.error(err);
+            }
+        }
+
+        function saveToLocalStorage() {
+            if (currentStudentData && currentStudentData.matric) {
+                localStorage.setItem(`student_${currentStudentData.matric}`, JSON.stringify(currentStudentData));
+            }
+        }
+
+        function renderDashboard(data) {
+            document.getElementById("studentPhoto").src = formatDriveImageUrl(data.photo);
+            document.getElementById("studentName").innerText = (data.name || '').toUpperCase();
+            document.getElementById("studentMatric").innerText = (data.matric || '').toUpperCase();
+            document.getElementById("studentPraktikum").innerText = (data.praktikum || '').toUpperCase();
+
+            const trialContainer = document.getElementById("trialQuestionContainer");
+            if (data.trialQuestionLink && data.trialQuestionLink.trim() !== "") {
+                trialContainer.innerHTML = `<a href="${data.trialQuestionLink}" target="_blank" class="btn-pdf-pro">${pdfSvgIcon}<span>Soalan Trial PSPSM 1 (PDF)</span></a>`;
+            } else {
+                trialContainer.innerHTML = `<span style="font-size: 13px; color: #888;">Tiada Pautan Soalan</span>`;
+            }
+
+            const pdfStatus = document.getElementById("pdfStatus");
+            if (data.answerPdfLink && data.answerPdfLink.trim() !== "") {
+                pdfStatus.innerHTML = `Jawapan Pelajar Terkini: <a href="${data.answerPdfLink}" target="_blank" class="btn-pdf-pro" style="padding: 4px 10px; font-size: 12px; margin-left: 5px;">${pdfSvgIcon}<span>Lihat Jawapan (PDF)</span></a>`;
+            } else {
+                pdfStatus.innerHTML = `<span style="color: #666;">Belum ada jawapan PDF dimuat naik.</span>`;
+            }
+
+            const formContainer = document.getElementById("marksForm");
+            formContainer.innerHTML = "";
+
+            if (!data.items || data.items.length === 0) {
+                formContainer.innerHTML = `<div class="set-row" style="text-align:center; padding: 20px;">Tiada set markah dijumpai dalam Google Sheet.</div>`;
+                return;
+            }
+
+            data.items.forEach((item) => {
+                const colIdx = item.colIndex;
+                const scoreObj = data.scores[colIdx] || { mark: "", grade: "-", time: "" };
+                const labelText = item.label.toUpperCase().trim();
+                const isTrial1 = labelText.includes("TRIAL 1");
+
+                let setIndex = 0;
+                const match = labelText.match(/SET\s*(\d+)/i);
+                if (match && match[1]) {
+                    setIndex = parseInt(match[1]);
+                }
+
+                const disabledAttr = isTrial1 ? 'disabled="disabled"' : '';
+                const lockTooltip = isTrial1 ? 'title="Markah Trial 1 dikunci dan diisi oleh pensyarah sahaja"' : '';
+
+                let buttonsHtml = '<span style="color:#aaa; font-size:12px;">-</span>';
+                let uploadHtml = '<span style="color:#aaa; font-size:12px;">-</span>';
+
+                if (!isTrial1 && setIndex >= 1 && setIndex <= 6) {
+                    const links = setLinks[setIndex];
+                    buttonsHtml = `
+                        <a href="${links.question}" target="_blank" class="btn-pdf-pro">${pdfSvgIcon} <span>Soalan Set ${setIndex}</span></a>
+                        <a href="${links.schema}" target="_blank" class="btn-skema-pro">${skemaSvgIcon} <span>Skema Set ${setIndex}</span></a>
+                    `;
+
+                    const existingSetPdf = (data.setAnswerLinks && data.setAnswerLinks[setIndex]) 
+    ? data.setAnswerLinks[setIndex].toString().trim() 
+    : "";
+
+// PEMBETULAN: Hanya anggap bernilai true JIKA diawali dengan URL http:// atau https://
+const hasPdf = existingSetPdf !== "" && (existingSetPdf.startsWith("http://") || existingSetPdf.startsWith("https://"));
+
+uploadHtml = `
+    <div class="upload-cell">
+        <div style="display: flex; gap: 5px; flex-direction: column;">
+            <input type="file" id="pdfFileInput_set${setIndex}" accept="application/pdf">
+            <button class="btn" style="padding: 6px 10px; font-size: 11px;" onclick="uploadSetAnswerPdf(${setIndex})">📤 Upload Jawapan Set ${setIndex}</button>
         </div>
-      </div>
-
-      <table class="marks-table">
-        <thead>
-          <tr>
-            <th>Komponen Pentaksiran</th>
-            <th>Markah Penuh</th>
-            <th>Markah Diperoleh</th>
-          </tr>
-        </thead>
-        <tbody id="marksBody">
-          <!-- Data markah dimasukkan melalui JS -->
-        </tbody>
-      </table>
-
-      <div class="action-buttons">
-        <!-- Butang Cetak Slip Markah -->
-        <button class="btn-action btn-print" onclick="window.print()">
-          <i class="fa-solid fa-print"></i> Cetak Slip Markah
-        </button>
-        <!-- Butang Lihat PDF Tugasan -->
-        <button class="btn-action btn-pdf" id="viewPdfBtn" onclick="openPdfModal()">
-          <i class="fa-solid fa-file-pdf"></i> Lihat / Muat Turun Tugasan
-        </button>
-      </div>
+        <div id="pdfStatus_set${setIndex}" style="margin-top: 4px; font-size: 11px;">
+            ${hasPdf ? `<span style="color: green; font-weight: bold;">✅ Terwujud</span> <a href="${existingSetPdf}" target="_blank" class="btn-pdf-pro" style="padding: 2px 6px; font-size: 10px; margin-left: 4px;">${pdfSvgIcon} <span>Lihat File</span></a>` : ''}
+        </div>
+        <div id="preview_set${setIndex}" class="preview-container" style="${hasPdf ? 'display:block;' : 'display:none;'}">
+            <iframe src="${hasPdf ? getDriveEmbedUrl(existingSetPdf) : ''}" id="iframe_set${setIndex}"></iframe>
+        </div>
     </div>
-  </div>
+`;
+                }
 
-  <!-- Modal untuk Paparan PDF -->
-  <div id="pdfModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <span>Paparan Semakan Tugasan Individu</span>
-        <span class="modal-close" onclick="closePdfModal()"><i class="fa-solid fa-xmark"></i></span>
-      </div>
-      <div class="modal-body">
-        <iframe id="pdfFrame" src=""></iframe>
-      </div>
-    </div>
-  </div>
+                const row = document.createElement("div");
+                row.className = "set-row";
+                row.innerHTML = `
+                    <div>
+                        <strong>${labelText} (PER 100)</strong>
+                        <div class="timestamp" id="time_col_${colIdx}">${scoreObj.time ? `Dikemaskini: ${scoreObj.time}` : 'Belum dimasukkan'}</div>
+                    </div>
+                    <div class="text-center">
+                        <input type="number" id="input_col_${colIdx}" class="mark-input" min="0" max="100" 
+                            value="${scoreObj.mark}" ${disabledAttr} ${lockTooltip}
+                            onchange="autoSaveSingleMark(${colIdx})" oninput="updateGradeDisplay(${colIdx})" placeholder="0-100">
+                    </div>
+                    <div class="text-center">
+                        <span id="grade_col_${colIdx}" class="grade-badge">${calculateGrade(scoreObj.mark)}</span>
+                    </div>
+                    <div class="action-buttons-cell text-center">${buttonsHtml}</div>
+                    <div>${uploadHtml}</div>
+                `;
+                formContainer.appendChild(row);
+            });
+        }
 
-  <script>
-    // Pangkalan Data Contoh
-    const database = [
-      {
-        matrik: "MS23123456",
-        nama: "Ahmad Bin Abdullah",
-        kumpulan: "H1T1",
-        quiz: 18,
-        tugasan: 28,
-        ujian: 42,
-        pdfUrl: "https://drive.google.com/open?id=1IgCXFe2rTWKexLBZHUa2fQIulVX5Icwt"
-      },
-      {
-        matrik: "MS23654321",
-        nama: "Siti Nurhaliza Binti Abu",
-        kumpulan: "H2T3",
-        quiz: 20,
-        tugasan: 30,
-        ujian: 45,
-        pdfUrl: "https://drive.google.com/file/d/1ANOTHEREXAMPLEID/preview"
-      }
-    ];
+        function updateGradeDisplay(colIdx) {
+            const val = document.getElementById(`input_col_${colIdx}`).value;
+            document.getElementById(`grade_col_${colIdx}`).innerText = calculateGrade(val);
+        }
 
-    let currentPdfUrl = "";
+        async function autoSaveSingleMark(colIdx) {
+            if (!currentStudentData) return;
 
-    function searchStudent() {
-      const input = document.getElementById("matrikInput").value.trim().toUpperCase();
-      const resultSection = document.getElementById("resultSection");
-      const errorMsg = document.getElementById("errorMsg");
+            const inputVal = document.getElementById(`input_col_${colIdx}`).value;
+            const calculatedGrade = calculateGrade(inputVal);
+            const now = new Date().toLocaleString("ms-MY");
 
-      const student = database.find(s => s.matrik === input);
+            showNotification("⏳ Auto-saving markah...");
 
-      if (student) {
-        errorMsg.style.display = "none";
-        
-        // Kemaskini Maklumat Pelajar
-        document.getElementById("studentName").innerText = student.nama;
-        document.getElementById("studentMatrik").innerText = student.matrik;
-        document.getElementById("studentKumpulan").innerText = student.kumpulan;
+            if (!currentStudentData.scores[colIdx]) currentStudentData.scores[colIdx] = {};
+            currentStudentData.scores[colIdx].mark = inputVal;
+            currentStudentData.scores[colIdx].grade = calculatedGrade;
+            currentStudentData.scores[colIdx].time = now;
 
-        // Kemaskini Markah
-        const marksBody = document.getElementById("marksBody");
-        const totalMark = student.quiz + student.tugasan + student.ujian;
-        
-        marksBody.innerHTML = `
-          <tr>
-            <td>Kuiz</td>
-            <td>20</td>
-            <td>${student.quiz}</td>
-          </tr>
-          <tr>
-            <td>Tugasan Individu</td>
-            <td>30</td>
-            <td>${student.tugasan}</td>
-          </tr>
-          <tr>
-            <td>Ujian Pertengahan Semester</td>
-            <td>50</td>
-            <td>${student.ujian}</td>
-          </tr>
-          <tr style="font-weight: bold; background: #f8fafc;">
-            <td>Jumlah Keseluruhan PB</td>
-            <td>100</td>
-            <td>${totalMark}</td>
-          </tr>
-        `;
+            const timeElem = document.getElementById(`time_col_${colIdx}`);
+            if (timeElem) timeElem.innerText = `Dikemaskini: ${now}`;
 
-        currentPdfUrl = student.pdfUrl;
-        resultSection.style.display = "block";
-      } else {
-        resultSection.style.display = "none";
-        errorMsg.style.display = "block";
-      }
-    }
+            saveToLocalStorage();
 
-    function openPdfModal() {
-      if (currentPdfUrl) {
-        document.getElementById("pdfFrame").src = currentPdfUrl;
-        document.getElementById("pdfModal").style.display = "flex";
-      }
-    }
+            const payload = {
+                matric: currentStudentData.matric.toUpperCase(),
+                scores: currentStudentData.scores,
+                setAnswerLinks: currentStudentData.setAnswerLinks || {}
+            };
 
-    function closePdfModal() {
-      document.getElementById("pdfModal").style.display = "none";
-      document.getElementById("pdfFrame").src = "";
-    }
-  </script>
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload)
+                });
+                const resData = await response.json();
+                if (resData.status === "success") showNotification("✅ Markah & Gred tersimpan!");
+                else showNotification("❌ Gagal simpan ke Sheet!");
+            } catch (err) {
+                showNotification("❌ Ralat sambungan!");
+                console.error(err);
+            }
+        }
+
+        async function uploadStudentAnswerPdf() {
+            const fileInput = document.getElementById("pdfFileInput");
+            const pdfStatus = document.getElementById("pdfStatus");
+            const uploadBtn = document.getElementById("uploadPdfBtn");
+
+            if (!fileInput.files || fileInput.files.length === 0) {
+                alert("Sila pilih fail PDF jawapan pelajar terlebih dahulu!");
+                return;
+            }
+
+            const file = fileInput.files[0];
+            if (file.type !== "application/pdf") {
+                alert("Sila pastikan fail dalam format PDF sahaja!");
+                return;
+            }
+
+            pdfStatus.innerHTML = "⏳ Sedang memuat naik fail PDF ke Google Drive...";
+            if (uploadBtn) uploadBtn.disabled = true;
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const arrayBuffer = e.target.result;
+                const bytes = Array.from(new Uint8Array(arrayBuffer));
+
+                const payload = {
+                    matric: currentStudentData.matric,
+                    uploadPdf: true,
+                    setIndex: "trial",
+                    fileBytes: bytes
+                };
+
+                try {
+                    const response = await fetch(SCRIPT_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(payload)
+                    });
+                    const res = await response.json();
+                    if (res.status === "success") {
+                        pdfStatus.innerHTML = `✅ Berjaya dimuat naik! <a href="${res.pdfUrl}" target="_blank" class="btn-pdf-pro" style="padding: 4px 10px; font-size: 12px; margin-left: 5px;">${pdfSvgIcon}<span>Lihat Jawapan (PDF)</span></a>`;
+                        currentStudentData.answerPdfLink = res.pdfUrl;
+                        saveToLocalStorage();
+                        showNotification("✅ Jawapan Trial tersimpan!");
+                    } else {
+                        pdfStatus.innerHTML = "❌ Gagal memuat naik: " + (res.message || "Ralat");
+                    }
+                } catch (err) {
+                    pdfStatus.innerHTML = "❌ Ralat memuat naik fail.";
+                    console.error(err);
+                } finally {
+                    if (uploadBtn) uploadBtn.disabled = false;
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        async function uploadSetAnswerPdf(setIndex) {
+            const fileInput = document.getElementById(`pdfFileInput_set${setIndex}`);
+            const pdfStatus = document.getElementById(`pdfStatus_set${setIndex}`);
+
+            if (!fileInput.files || fileInput.files.length === 0) {
+                alert(`Sila pilih fail PDF jawapan Set ${setIndex} terlebih dahulu!`);
+                return;
+            }
+
+            const file = fileInput.files[0];
+            if (file.type !== "application/pdf") {
+                alert("Sila pastikan fail dalam format PDF sahaja!");
+                return;
+            }
+
+            pdfStatus.innerHTML = "⏳ Sedang memuat naik...";
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const arrayBuffer = e.target.result;
+                const bytes = Array.from(new Uint8Array(arrayBuffer));
+
+                const payload = {
+                    matric: currentStudentData.matric,
+                    uploadPdf: true,
+                    setIndex: setIndex,
+                    fileName: `Jawapan_Set${setIndex}_${currentStudentData.matric}.pdf`,
+                    fileBytes: bytes
+                };
+
+                try {
+                    const response = await fetch(SCRIPT_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(payload)
+                    });
+                    const res = await response.json();
+                    if (res.status === "success") {
+                        const embedUrl = getDriveEmbedUrl(res.pdfUrl);
+                        if(!currentStudentData.setAnswerLinks) currentStudentData.setAnswerLinks = {};
+                        currentStudentData.setAnswerLinks[setIndex] = res.pdfUrl;
+                        saveToLocalStorage();
+
+                        pdfStatus.innerHTML = `<span style="color: green; font-weight: bold;">✅ Berjaya!</span> <a href="${res.pdfUrl}" target="_blank" class="btn-pdf-pro" style="padding: 2px 6px; font-size: 10px; margin-left: 4px;">${pdfSvgIcon} <span>Lihat File</span></a>`;
+                        const previewBox = document.getElementById(`preview_set${setIndex}`);
+                        const iframe = document.getElementById(`iframe_set${setIndex}`);
+                        iframe.src = embedUrl;
+                        previewBox.style.display = 'block';
+
+                        showNotification(`✅ Fail Set ${setIndex} tersimpan!`);
+                    } else {
+                        pdfStatus.innerHTML = "❌ Gagal: " + (res.message || "Ralat");
+                    }
+                } catch (err) {
+                    pdfStatus.innerHTML = "❌ Ralat sambungan.";
+                    console.error(err);
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+    </script>
 </body>
 </html>
